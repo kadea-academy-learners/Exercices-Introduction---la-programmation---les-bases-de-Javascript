@@ -124,7 +124,7 @@ const exercises = [
       check('Total corrigé', inOrder(main.text, ['2500500', '3000']), 'Le total corrigé avec Number() (3000) n\'est pas affiché après 2500500.'),
       check(
         'Prédictions vérifiées',
-        inOrder(main.text, ['3000', '0', 'nan', '42', '1']),
+        inOrder(main.text, ['2500500', '0', 'nan', '42', '1']), // indépendant de la correction (3000)
         "Affiche Number(''), Number('abc'), Number(' 42 ') et Number(true) dans cet ordre : 0, NaN, 42, 1.",
       ),
     ],
@@ -547,7 +547,7 @@ const exercises = [
       const fn = uses.fn(f, 'calculerSalaire');
       return [
         check('.forEach()', uses.method(f, 'forEach'), 'Calcule le total des heures avec `.forEach()`.'),
-        check('Boucle for', f.summary.forCount > 0, 'Trouve le jour le plus chargé avec une boucle `for`.'),
+        check('Boucle for', f.summary.forCount > 0 || f.summary.forOfCount > 0, 'Trouve le jour le plus chargé avec une boucle `for`.'),
         check('calculerSalaire fléchée', fn && fn.kind === 'arrow', '`calculerSalaire` doit être une fonction fléchée.'),
         check('tauxHoraire = 2500 par défaut', fn && fn.defaults.includes('tauxHoraire'), 'Déclare `tauxHoraire = 2500` comme paramètre par défaut.'),
       ];
@@ -644,7 +644,7 @@ const exercises = [
       const fn = uses.fn(f, 'calculerMoyenne');
       return [
         check('calculerMoyenne fléchée', fn && fn.kind === 'arrow', '`calculerMoyenne` doit être une fonction fléchée.'),
-        check('Boucle + accumulateur', fn && (fn.summary.forCount > 0 || fn.summary.whileCount > 0), '`calculerMoyenne` doit utiliser une boucle et un accumulateur.'),
+        check('Boucle + accumulateur', fn && (fn.summary.forCount > 0 || fn.summary.forOfCount > 0 || fn.summary.whileCount > 0), '`calculerMoyenne` doit utiliser une boucle et un accumulateur.'),
         check('.map()', uses.method(f, 'map'), 'Crée le bulletin avec `.map()`.'),
         check('.filter()', uses.method(f, 'filter'), 'Compte les admis avec `.filter()`.'),
         check('.find()', uses.method(f, 'find'), 'Trouve le premier Excellent avec `.find()`.'),

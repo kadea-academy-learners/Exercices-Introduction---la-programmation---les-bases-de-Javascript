@@ -41,6 +41,7 @@ const summarize = (root) => {
     elseIf: false,
     forCount: 0,
     forDecrement: false,
+    forOfCount: 0,
     whileCount: 0,
     doWhileCount: 0,
     continueCount: 0,
@@ -91,6 +92,10 @@ const summarize = (root) => {
         }
         break;
       }
+      case 'ForOfStatement':
+      case 'ForInStatement':
+        s.forOfCount += 1;
+        break;
       case 'WhileStatement':
         s.whileCount += 1;
         break;

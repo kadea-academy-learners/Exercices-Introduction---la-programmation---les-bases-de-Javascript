@@ -17,7 +17,8 @@ const renderTable = (data, columns) => {
 };
 
 const describeError = (error) => {
-  if (!error) return 'erreur inconnue';
+  if (error === null || error === undefined) return 'erreur inconnue';
+  if (typeof error !== 'object') return `Exception levée : ${String(error)}`;
   if (error.code === 'ERR_SCRIPT_EXECUTION_TIMEOUT') {
     return `Temps d'exécution dépassé (${DEFAULT_TIMEOUT} ms) : boucle infinie probable`;
   }
@@ -86,7 +87,7 @@ const runCode = (code, options = {}) => {
   try {
     new vm.Script(code, { filename: options.filename || 'exercice.js' }).runInContext(context, { timeout });
   } catch (e) {
-    error = e;
+    error = e === undefined || e === null ? new Error(`exception levée : ${e}`) : e;
   }
 
   // Évalue une expression dans le même contexte (les const/let de premier niveau y sont visibles).
